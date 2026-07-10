@@ -28,4 +28,10 @@ export const buscatodasNaves = async () => {
     console.log(data)
 }
 
+export const buscatodasPlanetas = async () => {
+    const response = await fetch(`${api}planets/`)
+    const data = await response.json()
+    return data 
+    console.log(data)
+}
 

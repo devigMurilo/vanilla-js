@@ -4,31 +4,33 @@ import { buscatodasPessoas } from "./apiwapper"
 import { buscatodasNaves } from "./apiwapper"
 
 export const buscarPersonagem = async (id) => {
-    const personagem = await buscaPessoa(id)
-    const personagemElement = document.getElementById('#buscar-personagem')
-    personagemElement.addEventListener('click', async () => {
-        const container = document.querySelector('#buscar-personagem')
-        container.innerHTML = `<p>${personagem.name}</p>`
+    const botao = document.querySelector('#buscar-personagem')
+    const input = document.querySelector('#input-personagem')
 
-         personagem.forEach((personagem) => {
-            const container = document.querySelector('#buscar-personagem')
-            container.innerHTML += `<p>${personagem.name}</p>`
-    })
-})
+    const id = input.value
+
+    const personagem = await buscaPessoa(id)
+    const resultado = document.querySelector('#resultado')
+    resultado.innerHTML = `${personagem.name}`
+
 }   
 
 
 export const buscarPlaneta = async (id) => {
+    const botao = document.querySelector('#buscar-planeta')
+    const input = document.querySelector('#input-planeta')
+
+    const id = input.value 
+
     const planeta = await buscaPlaneta(id)
-    console.log(planeta)
+    const resultado = document.querySelector('#resultado')
+    resultado.innerHTML = `${planeta.name}`
 }
 
 export const buscarTodasPessoas = async () => {
     const pessoas = await buscatodasPessoas()
-    console.log(pessoas)
-}
+    const resultado = document.querySelector('#resultado')
+    resultado.innerHTML = `${pessoas.results.map(pessoa => pessoa.name).join(', ')}`
 
-export const buscarTodasNaves = async () => {
-    const naves = await buscatodasNaves()
-    console.log(naves)
-}
+ }
+
