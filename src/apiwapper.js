@@ -1,37 +1,48 @@
-const api = 'https://swapi.dev/api/'
+ const api = 'https://swapi.dev/api/'
 
-export const buscaPessoa = async (id) => {
-    const response = await fetch(`${api}people/${id}`)
-    const data = await response.json()
-    return data
-    console.log(data)
+ export async function getPessoas() {
+    try {
+        const response = await fetch(`${api}people/`)
+
+        if (!response.ok) {
+            throw new Error('Erro na requisição')
+        }
+
+        const data = await response.json()
+        return data
+    } catch (error) {
+        console.error('Erro ao buscar pessoas:', error)
+        throw error 
+    }
 }
 
-export const buscaPlaneta = async (id) => {
-    const response = await fetch(`${api}planets/${id}`)
-    const data = await response.json()
-    return data
-    console.log(data)
+export async function getNave() {
+    try {
+        const response = await fetch(`${api}starships/`)
+        if (!response.ok) {
+            throw new Error('Erro na requisição')
+        }
+
+        const data = await response.json()
+        return data
+    } catch (error) {
+        console.error('Erro ao buscar naves:', error)
+        throw error
+    }
 }
 
-export const buscatodasPessoas = async () => {
-    const response = await fetch(`${api}people/`)
-    const data = await response.json()
-    return data
-    console.log(data)
-}
+export async function getPlaneta() {
+    try {
+        const response = await fetch(`${api}planets/`)
 
-export const buscatodasNaves = async () => {
-    const response = await fetch(`${api}starships/`)
-    const data = await response.json()
-    return data
-    console.log(data)
-}
+        if (!response.ok) {
+            throw new Error('Erro na requisição')
+        }    
 
-export const buscatodasPlanetas = async () => {
-    const response = await fetch(`${api}planets/`)
-    const data = await response.json()
-    return data 
-    console.log(data)
-}
-
+        const data = await response.json()
+        return data
+    } catch (error) {
+        console.error('Erro ao buscar planeta:', error)
+        throw error 
+        }
+};

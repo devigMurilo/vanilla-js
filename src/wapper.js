@@ -1,36 +1,54 @@
-import { buscaPessoa } from "./apiwapper"
-import { buscaPlaneta } from "./apiwapper"
-import { buscatodasPessoas } from "./apiwapper"
-import { buscatodasNaves } from "./apiwapper"
-
-export const buscarPersonagem = async (id) => {
-    const botao = document.querySelector('#buscar-personagem')
-    const input = document.querySelector('#input-personagem')
-
-    const id = input.value
-
-    const personagem = await buscaPessoa(id)
-    const resultado = document.querySelector('#resultado')
-    resultado.innerHTML = `${personagem.name}`
-
-}   
+import { getPessoas, getNave, getPlaneta } from './apiwapper.js'
 
 
-export const buscarPlaneta = async (id) => {
-    const botao = document.querySelector('#buscar-planeta')
-    const input = document.querySelector('#input-planeta')
-
-    const id = input.value 
-
-    const planeta = await buscaPlaneta(id)
-    const resultado = document.querySelector('#resultado')
-    resultado.innerHTML = `${planeta.name}`
+function renderizarPessoas(container, pessoas) {
+    container.innerHTML = pessoas.map((pessoa) => `<p>${pessoa.name}</p>`).join('')
+}
+function renderizarNaves(container, naves) {
+    container.innerHTML = naves.map((nave) => `<p>${nave.name}</p>`).join('')
+}
+function renderizarPlanetas(container ,planetas) {
+    container.innerHTML = planetas.map((planeta) => `<p>${planeta.name}</p>`).join('')
 }
 
-export const buscarTodasPessoas = async () => {
-    const pessoas = await buscatodasPessoas()
-    const resultado = document.querySelector('#resultado')
-    resultado.innerHTML = `${pessoas.results.map(pessoa => pessoa.name).join(', ')}`
 
- }
+export function buscarPessoas(botao) {
+    botao.addEventListener('click', async () => {
+        const container = document.getElementById('resultado')
+        container.innerHTML = ' <p>carregando...</p>'
+        try {
+            const data = await getPessoas()
+            renderizarPessoas(container, data.results)
+        } catch (error) {
+            container.innerHTML = '<p>Erro ao buscar personagens. Por favor, tente novamente.</p>'
+        }
+        }
+        
+    )
+}
 
+export function buscarNave(botao) {
+    botao.addEventListener('click', async () => {
+        const container = document.getElementById('resultado')
+        container.innerHTML = ' <p>carregando...</p>'
+        try {
+            const data = await getNave()
+            renderizarNaves(container, data.results)
+        } catch (error) {
+            container.innerHTML = '<p>Erro ao buscar naves. Por favor, tente novamente.</p>'
+        }
+    })
+}
+
+export function buscarPlaneta(botao) {
+    botao.addEventListener('click', async () => {
+        const container = document.getElementById('resultado')
+        container.innerHTML = ' <p>carregando...</p>' 
+        try {
+            const data = await getPlaneta()
+            renderizarPlanetas(container, data.results)
+        } catch (error) {
+            container.innerHTML = '<p>Erro ao buscar planetas. Por favor, tente novamente.</p>'
+        }
+    })
+}
